@@ -1,0 +1,352 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voyage — Considered Travel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --stone-50: #f7f6f4;
+      --stone-100: #eeede9;
+      --stone-200: #ddd9d3;
+      --stone-300: #c6beb3;
+      --stone-400: #a8a096;
+      --stone-500: #8e877b;
+      --stone-600: #726c63;
+      --stone-700: #5d5750;
+      --stone-800: #504a44;
+      --stone-900: #45413b;
+      --stone-950: #262521;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--stone-50);
+      color: var(--stone-950);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--stone-800);
+      color: var(--stone-50);
+    }
+
+    .font-editorial {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--stone-300); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--stone-400); }
+
+    /* Hero image treatment */
+    .img-editorial {
+      filter: grayscale(100%) contrast(105%) brightness(0.97);
+      transition: filter 1.2s ease, transform 1.4s ease;
+    }
+
+    .img-editorial:hover {
+      filter: grayscale(90%) contrast(105%) brightness(1.02);
+      transform: scale(1.02);
+    }
+
+    /* Thin divider lines */
+    .divider-h {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--stone-300), transparent);
+    }
+
+    /* Subtle reveal animation */
+    @keyframes revealUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      animation: revealUp 0.9s ease-out both;
+    }
+
+    .reveal-delay-1 { animation-delay: 0.1s; }
+    .reveal-delay-2 { animation-delay: 0.2s; }
+    .reveal-delay-3 { animation-delay: 0.3s; }
+
+    /* Navigation underline */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--stone-950);
+      transition: width 0.4s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Card hover lift */
+    .card-lift {
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    .card-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(38, 37, 33, 0.08);
+    }
+
+    /* Button treatment */
+    .btn-editorial {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-editorial::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--stone-950);
+      transition: left 0.4s ease;
+      z-index: 0;
+    }
+    .btn-editorial:hover::before { left: 0; }
+    .btn-editorial:hover span { color: var(--stone-50); }
+    .btn-editorial span { position: relative; z-index: 1; transition: color 0.3s ease; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Navigation -->
+  <header id="nav" class="fixed top-0 left-0 right-0 z-50 bg-[#f7f6f4]/85 backdrop-blur-md transition-all duration-500">
+    <div class="max-w-6xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" aria-label="Voyage Home" class="flex items-baseline gap-1">
+        <span class="font-editorial text-3xl tracking-tight font-light text-[#262521]">Voyage</span>
+        <span class="font-editorial text-xs tracking-[0.3em] text-[#726c63] ml-1 font-normal">EST. 1924</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-10 text-[11px] uppercase tracking-[0.2em] text-[#5d5750]">
+        <a href="#journal" class="nav-link hover:text-[#262521] transition-colors">Journal</a>
+        <a href="#destinations" class="nav-link hover:text-[#262521] transition-colors">Places</a>
+        <a href="#stories" class="nav-link hover:text-[#262521] transition-colors">Stories</a>
+        <a href="#about" class="nav-link hover:text-[#262521] transition-colors">About</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button onclick="toggleMenu()" class="md:hidden p-2 -mr-2" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
+        <div class="w-6 h-4 flex flex-col justify-between">
+          <span class="h-px bg-[#262521] block transition-all duration-300 origin-left"></span>
+          <span class="h-px bg-[#262521] block transition-all duration-300"></span>
+          <span class="h-px bg-[#262521] block transition-all duration-300 origin-left"></span>
+        </div>
+      </button>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav id="mobile-nav" class="md:hidden overflow-hidden max-h-0 transition-[max-height] duration-500 ease-in-out bg-[#f7f6f4]/95 backdrop-blur-xl border-t border-[#eeede9]">
+      <div class="flex flex-col items-center gap-8 py-10 text-sm uppercase tracking-[0.2em] text-[#5d5750]">
+        <a href="#journal" onclick="closeMenu()" class="hover:text-[#262521]">Journal</a>
+        <a href="#destinations" onclick="closeMenu()" class="hover:text-[#262521]">Places</a>
+        <a href="#stories" onclick="closeMenu()" class="hover:text-[#262521]">Stories</a>
+        <a href="#about" onclick="closeMenu()" class="hover:text-[#262521]">About</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="relative min-h-[92vh] flex items-end overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80&auto=format" alt="Mountain landscape" class="w-full h-full object-cover img-editorial grayscale" loading="eager">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#262521]/70 via-[#262521]/20 to-[#262521]/10"></div>
+      </div>
+
+      <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10 pb-16 md:pb-24 pt-64 md:pt-80">
+        <div class="max-w-3xl">
+          <p class="text-[#c6beb3] text-[11px] uppercase tracking-[0.35em] mb-6 reveal">Considered Travel &mdash; Vol. 12</p>
+          <h1 class="font-editorial text-6xl md:text-[10rem] leading-[0.85] font-light text-[#f7f6f4] mb-6 reveal reveal-delay-1">
+            <span class="italic">Where</span><br>the light<br>rests.
+          </h1>
+          <p class="text-[#ddd9d3]/80 text-base md:text-lg max-w-md leading-relaxed font-light reveal reveal-delay-2">
+            A curated journal of slow journeys, quiet landscapes, and the art of traveling without urgency.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Editorial Divider -->
+    <div class="max-w-6xl mx-auto px-6 md:px-10">
+      <div class="divider-h my-20 md:my-28"></div>
+    </div>
+
+    <!-- Journal / Featured Story -->
+    <section id="journal" class="max-w-6xl mx-auto px-6 md:px-10 mb-28 md:mb-36">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-6 items-start">
+        <div class="md:col-span-4 md:sticky md:top-28 self-start">
+          <p class="text-[10px] uppercase tracking-[0.3em] text-[#a8a096] mb-4">Issue No. 42</p>
+          <h2 class="font-editorial text-4xl md:text-5xl font-light leading-[1.05] text-[#262521] mb-6">
+            The Stillness of the <br>
+            <span class="italic">Dolomites</span>
+          </h2>
+          <p class="text-[#726c63] text-sm leading-relaxed mb-8">
+            At dawn, the limestone peaks emerge like silent monuments against a sky still deciding between gray and violet. There is a particular silence here that feels impossible to find elsewhere.
+          </p>
+          <a href="#" class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] border-b border-[#262521] pb-1 hover:text-[#5d5750] hover:border-[#5d5750] transition-colors group">
+            Read the full story
+            <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+          </a>
+        </div>
+
+        <div class="md:col-span-8">
+          <a href="#" class="block overflow-hidden rounded-sm group">
+            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80&auto=format" alt="Mountain ridges" class="w-full aspect-[5/4] object-cover img-editorial grayscale group-hover:brightness-[1.05]">
+          </a>
+          <div class="flex items-center justify-between mt-6 text-[10px] uppercase tracking-[0.2em] text-[#a8a096]">
+            <span>Photography by Emilie Vance</span>
+            <span>Dolomites, Italy</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Places -->
+    <section id="destinations" class="max-w-6xl mx-auto px-6 md:px-10 mb-28 md:mb-36">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12 md:mb-16">
+        <h2 class="font-editorial text-4xl md:text-6xl font-light text-[#262521] leading-[0.95]">Places worth<br> <span class="italic">lingering</span></h2>
+        <p class="text-sm text-[#726c63] max-w-xs leading-relaxed">A selection of destinations chosen for their stillness, light, and the absence of noise.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+        <!-- Card 1 -->
+        <a href="#" class="card-lift bg-[#eeede9] rounded-sm overflow-hidden group">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=800&q=80&auto=format" alt="Swiss Alps lake" class="w-full aspect-[3/4] object-cover img-editorial grayscale">
+          </div>
+          <div class="p-6 md:p-8">
+            <p class="text-[10px] uppercase tracking-[0.25em] text-[#a8a096] mb-3">Switzerland</p>
+            <h3 class="font-editorial text-2xl md:text-3xl font-light text-[#262521] mb-3">The Still Lakes</h3>
+            <p class="text-sm text-[#726c63] leading-relaxed">Morning fog lifts slowly over alpine waters, revealing a silence so complete it starts to feel like sound.</p>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="#" class="card-lift bg-[#eeede9] rounded-sm overflow-hidden group md:mt-16">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800&q=80&auto=format" alt="Italian canal" class="w-full aspect-[3/4] object-cover img-editorial grayscale">
+          </div>
+          <div class="p-6 md:p-8">
+            <p class="text-[10px] uppercase tracking-[0.25em] text-[#a8a096] mb-3">Italy</p>
+            <h3 class="font-editorial text-2xl md:text-3xl font-light text-[#262521] mb-3">Venice Before Dawn</h3>
+            <p class="text-sm text-[#726c63] leading-relaxed">Before the boats arrive and the light turns sharp, there is a few minutes where the water holds all the color.</p>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="#" class="card-lift bg-[#eeede9] rounded-sm overflow-hidden group">
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&q=80&auto=format" alt="Japanese temple garden" class="w-full aspect-[3/4] object-cover img-editorial grayscale">
+          </div>
+          <div class="p-6 md:p-8">
+            <p class="text-[10px] uppercase tracking-[0.25em] text-[#a8a096] mb-3">Japan</p>
+            <h3 class="font-editorial text-2xl md:text-3xl font-light text-[#262521] mb-3">Kyoto in Autumn</h3>
+            <p class="text-sm text-[#726c63] leading-relaxed">Where the moss has been tended for centuries, the world seems to move at a pace designed for noticing.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Full-Width Story -->
+    <section id="stories" class="relative overflow-hidden mb-28 md:mb-36">
+      <div class="grid md:grid-cols-2 min-h-[70vh]">
+        <div class="relative h-72 md:h-auto">
+          <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1000&q=80&auto=format" alt="Mountain valley" class="w-full h-full object-cover img-editorial grayscale">
+          <div class="absolute inset-0 bg-gradient-to-r from-[#262521]/30 to-transparent md:from-transparent md:to-[#262521]/30 md:bg-gradient-to-l"></div>
+        </div>
+        <div class="bg-[#262521] text-[#f7f6f4] flex items-center">
+          <div class="max-w-md mx-auto px-8 md:px-14 py-16 md:py-20">
+            <p class="text-[10px] uppercase tracking-[0.3em] text-[#c6beb3] mb-6">Notes from the Field</p>
+            <blockquote class="font-editorial text-3xl md:text-4xl leading-[1.2] font-light mb-8 italic text-[#f7f6f4]/95">
+              "Travel is not about leaving. It is about arriving at a slower version of yourself."
+            </blockquote>
+            <p class="text-[#c6beb3] text-sm leading-relaxed mb-8">
+              We believe the best itineraries are empty ones. Our guides do not suggest what to see, but suggest when to stop seeing and begin feeling.
+            </p>
+            <a href="#" class="inline-block btn-editorial border border-[#f7f6f4]/30 px-6 py-3 text-[11px] uppercase tracking-[0.2em] hover:border-[#f7f6f4] transition-colors">
+              <span>View all stories</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / Philosophy -->
+    <section id="about" class="max-w-4xl mx-auto px-6 md:px-10 mb-28 md:mb-36 text-center">
+      <h2 class="font-editorial text-4xl md:text-7xl font-light text-[#262521] mb-8">Considered<br> <span class="italic">movement.</span></h2>
+      <div class="w-12 h-px bg-[#c6beb3] mx-auto mb-10"></div>
+      <p class="text-[#726c63] leading-[1.9] text-base md:text-lg max-w-2xl mx-auto mb-6">
+        Voyage was founded on a simple refusal: we do not believe travel must be efficient. Instead, we build itineraries around weather, light, and the rhythm of a place — not its attractions.
+      </p>
+      <p class="text-[#726c63] leading-[1.9] text-base md:text-lg max-w-2xl mx-auto">
+        Our guides are curated by writers and photographers who have spent more time sitting in a single square than passing through it. The result is travel that lingers.
+      </p>
+    </section>
+
+    <!-- Minimal Footer -->
+    <footer class="border-t border-[#eeede9] bg-[#f7f6f4]">
+      <div class="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20 flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
+        <div>
+          <a href="#" aria-label="Voyage Home" class="block mb-4">
+            <span class="font-editorial text-3xl tracking-tight font-light text-[#262521]">Voyage</span>
+          </a>
+          <p class="text-xs text-[#a8a096] tracking-[0.15em] uppercase">Considered travel for quiet minds.</p>
+        </div>
+        <div class="flex gap-8 text-[11px] uppercase tracking-[0.15em] text-[#726c63]">
+          <a href="#" class="hover:text-[#262521] transition-colors">Instagram</a>
+          <a href="#" class="hover:text-[#262521] transition-colors">Newsletter</a>
+          <a href="#" class="hover:text-[#262521] transition-colors">Contact</a>
+        </div>
+      </div>
+      <div class="max-w-6xl mx-auto px-6 md:px-10 pb-8 text-[10px] text-[#c6beb3] tracking-[0.15em]">
+        &copy; 2024 Voyage. All journeys are provisional.
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileNav = document.getElementById('mobile-nav');
+    const btn = document.querySelector('button[aria-controls="mobile-nav"]');
+    function toggleMenu() {
+      const open = mobileNav.style.maxHeight && mobileNav.style.maxHeight !== '0px';
+      if (open) {
+        mobileNav.style.maxHeight = '0px';
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        mobileNav.style.maxHeight = mobileNav.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+    function closeMenu() {
+      mobileNav.style.maxHeight = '0px';
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    // Header shadow on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        nav.classList.add('shadow-[0_1px_0_0_#eeede9]');
+      } else {
+        nav.classList.remove('shadow-[0_1px_0_0_#eeede9]');
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
